@@ -1,5 +1,6 @@
 import { LogService, MatrixClient, MessageEvent, RichReply, UserID } from "matrix-bot-sdk";
 import { runHelloCommand } from "./hello";
+import { runInviteCommand } from "./invite_agent";
 import * as htmlEscape from "escape-html";
 
 // The prefix required to trigger the bot. The bot will also respond
@@ -58,7 +59,11 @@ export default class CommandHandler {
         try {
             if (args[0] === "hello") {
                 return runHelloCommand(roomId, event, args, this.client);
-            } else {
+            }
+            else if(args[0] === "agent") {
+                return runInviteCommand(roomId, event, args, this.client);
+            }
+            else {
                 const help = "" +
                     "!bot hello [user]     - Say hello to a user.\n" +
                     "!bot help             - This menu\n";

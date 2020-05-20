@@ -1,10 +1,10 @@
 # Where the homeserver's Client-Server API is located. Typically this
 # is where clients would be connecting to in order to send messages.
-homeserverUrl: "https://matrix.org"
+homeserverUrl: "http://localhost:8008"
 
 # An access token for the bot to use. Learn how to get an access token
 # at https://t2bot.io/docs/access_tokens
-accessToken: "YOUR_TOKEN_HERE"
+accessToken: "MDAxN2xvY2F0aW9uIGxvY2FsaG9zdAowMDEzaWRlbnRpZmllciBrZXkKMDAxMGNpZCBnZW4gPSAxCjAwMjZjaWQgdXNlcl9pZCA9IEBkaWFuYWJvdDpsb2NhbGhvc3QKMDAxNmNpZCB0eXBlID0gYWNjZXNzCjAwMjFjaWQgbm9uY2UgPSA1eC5tWEc7cm5sJjNYQE5lCjAwMmZzaWduYXR1cmUgv91GeUssTON5-_hWQaKAzcmX9_zUkdlq-Yj4zP91kkEK"
 
 # Whether or not to autojoin rooms when invited.
 autoJoin: true

@@ -14,7 +14,7 @@ import CommandHandler from "./commands/handler";
 LogService.setLogger(new RichConsoleLogger());
 
 // For now let's also make sure to log everything (for debugging)
-LogService.setLevel(LogLevel.DEBUG);
+LogService.setLevel(LogLevel.INFO);
 
 // Print something so we know the bot is working
 LogService.info("index", "Bot starting...");
