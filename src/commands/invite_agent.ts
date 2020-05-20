@@ -11,49 +11,53 @@ export async function runInviteCommand(roomId: string, event: MessageEvent<Messa
     return;
 }
 
-
-// async function checkAgentJoined2(roomId: string, agentId: string, client: MatrixClient) {
-
-//   // Create a promise that rejects in <ms> milliseconds
-//   let timeoutId;
-//   let timeoutPromise = new Promise((resolve, reject) => {
-//     timeoutId = setTimeout(() => {
-//       resolve(false)
-//     }, 15000)
-//   })
-
-
-//   let promise3 = checkAgentJoined(roomId, agentId, client);
-//   // Returns a race between our timeout and the passed in promise
-//   return Promise.race([
-//     promise3,
-//     timeoutPromise
-//   ]).then((result) => {
-//     console.log("Estoy en el then del race. No debería haber devuelto todavía. Devolvió ", result)
-//     clearTimeout(timeoutId);
-//     return result;
-//   });
-// }
-
 async function checkAgentJoined(roomId: string, agentId: string, client: MatrixClient) {
-    LogService.info("CommandHandler", `Chequeando si ${agentId}... ya se unió`);
+
+  // Create a promise that rejects in <ms> milliseconds
+  let timeoutId;
+  let timeoutPromise = new Promise((resolve, reject) => {
+    timeoutId = setTimeout(() => {
+        console.log("PASARON 15 SEGUNDOS")
+        resolve("false")
+    }, 15000)
+  })
+
+
+  let promiseIsAgentInRoom = isAgentInRoom(roomId, agentId, client);
+  // Returns a race between our timeout and the passed in promise
+  return Promise.race([
+    promiseIsAgentInRoom,
+    timeoutPromise
+  ]).then((result) => {
+    console.log("Estoy en el then del RACE. DEVOLVIÓ ", result)
+    clearTimeout(timeoutId);
+    return result;
+  });
+}
+
+async function isAgentInRoom(roomId: string, agentId: string, client: MatrixClient) {
+    LogService.info("CommandHandler", `Chequeando si ${agentId} ya se unió`);
     const members = await client.getJoinedRoomMembers(roomId);
     if (members.includes(agentId)) {
         LogService.info("CommandHandler", `LISTO! ${agentId}... ya se unió`);
-        return true
-    }
-    else {
-        setTimeout(() => {
-            console.log("Intentando...")
-            checkAgentJoined(roomId, agentId, client);
-        }, 2000)
+        return new Promise(function(resolve, reject) {
+          // not taking our time to do the job
+          resolve("true"); // immediately give the result: 123
+        });
     }
     // else {
-    //     return new Promise((resolve, reject) => {
-    //         problema = setTimeout(() => {
-    //             console.log("Intentando...")
-    //             checkAgentJoined(roomId, agentId, client);
-    //         }, 2000)
-    //     })
+    //     setTimeout(() => {
+    //         console.log("Intentando...")
+    //         isAgentInRoom(roomId, agentId, client);
+    //     }, 2000)
+    //     return false
     // }
+    else {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                console.log("Intentando...")
+                isAgentInRoom(roomId, agentId, client);
+            }, 2000)
+        })
+    }
 }
